@@ -89,3 +89,52 @@ function startApp() {
         }
       });
   }
+
+// View Employees
+function viewEmployee() {
+    console.log("Viewing employees... \n");
+  
+    const query = `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
+                  FROM employees e
+                  LEFT JOIN roles r
+                  ON e.role_id = r.id
+                  LEFT JOIN departments d
+                  ON d.id = r.department_id
+                  LEFT JOIN employees m
+                  ON m.id = e.manager_id`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      console.log("Employees viewed! \n");
+  
+      startApp();
+    });
+  }
+
+
+// Display list of departments for user to choose
+function viewEmployeeByDept() {
+    console.log("Viewing employees by department\n");
+  
+    var query = `SELECT d.id, d.name, r.salary AS budget
+          FROM employees e
+          LEFT JOIN roles r
+          ON e.role_id = r.id
+          LEFT JOIN departments d
+          ON d.id = r.department_id`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+  
+      const deptChoices = res.map((data) => ({
+        value: data.id,
+        name: data.name,
+      }));
+  
+      console.table(res);
+      console.log("Viewing departments... \n");
+  
+      chosenDepartment(deptChoices);
+    });
+  }
