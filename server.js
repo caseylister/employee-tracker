@@ -200,3 +200,72 @@ function viewRoles() {
     });
 }
 
+// Show roles for role id prompt when adding employee
+function addEmployee() {
+    console.log("Adding an employee... \n");
+  
+    var query = `SELECT r.id, r.title, r.salary 
+          FROM roles r`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+  
+      const roleOptions = res.map(({ id, title, salary }) => ({
+        value: id,
+        title: `${title}`,
+        salary: `${salary}`,
+      }));
+  
+      console.table(res);
+  
+      newEmployee(roleOptions);
+    });
+  }
+  
+  // Add employee
+  function newEmployee(roleOptions) {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "firstName",
+          message: "What is the employee's first name?",
+        },
+        {
+          type: "input",
+          name: "lastName",
+          message: "What is the employee's last name?",
+        },
+        {
+          type: "list",
+          name: "roleId",
+          message: "What is the employee's role?",
+          choices: roleOptions,
+        },
+        {
+            type: "input",
+            name: "managerId",
+            message: "What is this employee's manager's ID number?",
+        }
+      ])
+      .then(function (answer) {
+        var query = `INSERT INTO employees SET ?`;
+        db.query(
+          query,
+          {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: answer.roleId,
+            manager_id: answer.managerId,
+          },
+          function (err, res) {
+            if (err) throw err;
+            console.table(res);
+  
+            console.log("Employee added! \n");
+  
+            startApp();
+          }
+        );
+      });
+  }
