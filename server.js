@@ -379,3 +379,28 @@ function deleteEmployee() {
     });
 }
 
+// Prompt user with employee list
+// Delete an Employee
+function chooseDelete(deleteEmployeeOptions) {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employee",
+          message: "Which employee do you want to remove?",
+          choices: deleteEmployeeOptions,
+        },
+      ])
+      .then(function (answer) {
+        var query = `DELETE FROM employees WHERE ?`;
+  
+        db.query(query, { id: answer.employee }, function (err, res) {
+          if (err) throw err;
+  
+          console.table(res);
+          console.log("Employee deleted! \n");
+  
+          startApp();
+        });
+      });
+}
