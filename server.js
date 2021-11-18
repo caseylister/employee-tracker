@@ -138,3 +138,34 @@ function viewEmployeeByDept() {
       chosenDepartment(deptChoices);
     });
   }
+
+  // View employees by chosen department
+  function chosenDepartment(deptChoices) {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "departmentId",
+          message: "Choose a department to view its employees.",
+          choices: deptChoices,
+        },
+      ])
+      .then(function (answer) {
+        var query = `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department 
+              FROM employees e
+              JOIN roles r
+              ON e.role_id = r.id
+              JOIN departments d
+              ON d.id = r.department_id
+              WHERE d.id = ?`;
+  
+        db.query(query, answer.departmentId, function (err, res) {
+          if (err) throw err;
+          console.table("response ", res);
+  
+          console.log("Employees viewed! \n");
+  
+          startApp();
+        });
+      });
+  }
