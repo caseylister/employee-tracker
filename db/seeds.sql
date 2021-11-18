@@ -15,7 +15,7 @@ VALUES
     ('CFO', 700000, 1),
     ('COO', 700000, 1),
     ('CMO', 650000, 1),
-    ('CTO', 650,000, 1),
+    ('CTO', 650000, 1),
     ('Senior Accountant', 325000, 2),
     ('Staff Accountant', 225000, 2),
     ('Accounts Payable Clerk', 125000, 2),
@@ -34,7 +34,7 @@ VALUES
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
-    ('Bob', 'Rob', 1, NULL)
+    ('Bob', 'Rob', 1, NULL),
     ('Lenny', 'Chalamet', 2, 1),
     ('Rebecca', 'Finesworth', 3, 1),
     ('Sydney', 'Simmons', 4, 1),
