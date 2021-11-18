@@ -24,3 +24,68 @@ db.connect((err) => {
 });
 
 
+// Prompt user for action
+function startApp() {
+    inquirer
+      .prompt({
+        type: "list",
+        name: "task",
+        message: "What would you like to do?",
+        choices: [
+          "View Employees",
+          "View Employees by Department",
+          "View Departments",
+          "View Roles",
+          "Add an Employee",
+          "Add a Department",
+          "Add a Role",
+          "Update Employee Role",
+          "Remove an Employee",
+          "Finish!",
+        ],
+      })
+      .then(function ({ task }) {
+        console.log("You chose to: " + task);
+        switch (task) {
+          case "View Employees":
+            viewEmployee();
+            break;
+  
+          case "View Employees by Department":
+            viewEmployeeByDept();
+            break;
+  
+          case "View Departments":
+            viewDept();
+            break;
+  
+          case "View Roles":
+            viewRoles();
+            break;
+  
+          case "Add an Employee":
+            addEmployee();
+            break;
+  
+          case "Add a Department":
+            addDept();
+            break;
+  
+          case "Add a Role":
+            addRole();
+            break;
+  
+          case "Update Employee Role":
+            updateRole();
+            break;
+  
+          case "Remove an Employee":
+            deleteEmployee();
+            break;
+  
+          case "Finish!":
+            db.end();
+            break;
+        }
+      });
+  }
