@@ -222,8 +222,8 @@ function addEmployee() {
     });
   }
   
-  // Add employee
-  function newEmployee(roleOptions) {
+// Add employee
+function newEmployee(roleOptions) {
     inquirer
       .prompt([
         {
@@ -268,4 +268,63 @@ function addEmployee() {
           }
         );
       });
+}
+
+// Add a Department
+function addDept() {
+    const query = `INSERT INTO departments (name) VALUES (?)`;
+    inquirer
+      .prompt({
+        type: "input",
+        name: "deptName",
+        message: "What is the name of the department?",
+      })
+      .then(function (answer) {
+        db.query(query, [answer.deptName], function (err, res) {
+          if (err) throw err;
+          console.table(res);
+  
+          console.log("Department added! \n");
+  
+          startApp();
+        });
+      });
+}
+
+// Add Roles
+function addRole() {
+    const query = `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`;
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "title",
+          message: "What is the title of this role?",
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "What is the annual salary for this role?",
+        },
+        {
+          type: "input",
+          name: "deptId",
+          message:
+            "What department is this role for? Please enter the department ID number.",
+        },
+      ])
+      .then(function (answer) {
+        db.query(query, [answer.title, answer.salary, answer.deptId], function (
+          err,
+          res
+        ) {
+          if (err) throw err;
+          console.table(res);
+  
+          console.log("Role added! \n");
+  
+          startApp();
+        });
+      });
   }
+  
