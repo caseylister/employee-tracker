@@ -328,3 +328,54 @@ function addRole() {
       });
   }
   
+
+  // Update Employee Role
+  function updateRole() {
+    const query = `UPDATE employees SET role_id = ? WHERE first_name = ?`;
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "name",
+          message:
+            "Which employee would you like to update? (Please enter employee's first name.",
+        },
+        {
+          type: "number",
+          name: "roleId",
+          message: "Enter new employee role ID number.",
+        },
+      ])
+      .then(function (answer) {
+        db.query(query, [answer.roleId, answer.name], function (err, res) {
+          if (err) throw err;
+          console.table(res);
+  
+          console.log("Employee role updated! \n");
+  
+          startApp();
+        });
+      });
+  }
+  
+// Create list of employees for user to choose from
+function deleteEmployee() {
+    console.log("Deleting an employee... \n");
+  
+    var query = `SELECT e.id, e.first_name, e.last_name
+          FROM employees e`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+  
+      const deleteEmployeeOptions = res.map(({ id, first_name, last_name }) => ({
+        value: id,
+        name: `${id} ${first_name} ${last_name}`,
+      }));
+  
+      console.table(res);
+  
+      chooseDelete(deleteEmployeeOptions);
+    });
+}
+
