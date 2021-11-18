@@ -169,3 +169,34 @@ function viewEmployeeByDept() {
         });
       });
   }
+
+// View Departments
+function viewDept() {
+    console.log("Viewing departments... \n");
+  
+    const query = `SELECT * FROM departments`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      console.log("Departments viewed! \n");
+  
+      startApp();
+    });
+}
+  
+// View Roles
+function viewRoles() {
+    console.log("Viewing roles... \n");
+  
+    const query = `SELECT * FROM roles`;
+  
+    db.query(query, function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      console.log("Roles viewed! \n");
+  
+      startApp();
+    });
+}
+
